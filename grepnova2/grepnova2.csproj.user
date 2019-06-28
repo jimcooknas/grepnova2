@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ReferencePath>C:\Users\cooknas\source\repos\grepnova2\grepnova2\libs\;C:\Users\cooknas\source\repos\grepnova2\grepnova2\libs\include\</ReferencePath>
+    <PublishUrlHistory>C:\Users\cooknas\source\publish\Grepnova2\|ftp://sioustis.com/gsst/Misc/Grepnova2/Online/|C:\Users\cooknas\source\publish\|C:\Users\cooknas\source\|publish\</PublishUrlHistory>
+    <InstallUrlHistory />
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>false</VerifyUploadedFiles>
+  </PropertyGroup>
+  <PropertyGroup>
+    <EnableSecurityDebugging>false</EnableSecurityDebugging>
+  </PropertyGroup>
+</Project>
