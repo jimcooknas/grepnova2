@@ -1,0 +1,39 @@
+Images Details
+	Image Curve
+
+Utilities (testing)
+	Alignment Method
+		grepnova-align.bin.exe
+		Grepnova2 (Accord optimization)
+	Save As Template
+	Solve Plate
+	Download from DSS
+	Convolve
+		Plain 3x3
+		Blur5x5Filter
+		Gaussian3x3BlurFilter
+		SharpenFilter
+		Sharpen9x9Filter
+		newMatrix
+		SExtr
+	Normalize
+	Erode
+	Image Functions
+		Square Root
+		Atan
+		Inverse Log
+		Square
+	Scale template
+	Show triplets
+	Calculate Alignment (internal Nelder-Mead)
+	Grepnova2 Align
+	Log All Align
+	Fits data to Console
+	
+
+Pyrhon (testing)
+	Find Stars
+	Align
+	
+About
+	Hot Keys

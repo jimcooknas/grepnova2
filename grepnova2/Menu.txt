@@ -1,0 +1,85 @@
+Folders
+	Folders
+		Select Templates Folder
+		Select Subjects Folder
+	Blank Subject
+	Refresh Batch
+	Clear Templates Folder
+	Clear Subjects folder
+	Exit
+
+Search
+	Search for Candidates
+	Auto-search the Loaded Batch
+	Find SNe
+
+Settings
+	GrepNova2 Settings
+	Grepnova Settings
+	Resize Template when needed
+	Star Circles Radius as per PSF
+	Cursor on images
+		Cross
+		Circle
+
+Images Details
+	Show Images Headers
+	Remove annotations (brightests, centroids)
+	Remove NS candidate
+	Image Statistics
+	Bitmap Filtering
+	Stretch Image
+	Image Curve
+	Sharpen FITS
+	Wavelength
+
+Utilities
+	Alignment Method
+		grepnova-align.bin.exe
+		Grepnova2 (Accord optimization)
+			Nelder-Mead
+			Cobyla
+	Save As Template
+	Solve Plate
+	Download from DSS
+	VisieR
+
+Utilities (testing)
+	Convolution Method
+		AForge
+		Direct	
+	Convolve
+		Plain 3x3
+		Blur5x5Filter
+		Gaussian3x3BlurFilter
+		SharpenFilter
+		Sharpen9x9Filter
+		newMatrix
+		SExtr
+	Normalize
+	Diference (Subject-Aligned Temp)
+	Erode
+	Image Functions
+		Square Root
+		Atan
+		Inverse Log
+		Square
+	Scale template
+	Show triplets
+	Check Similarity
+	Calculate Alignment (internal Nelder-Mead)
+	Grepnova2 Align
+	Log All Align
+	Fits data to Console
+	Matrix Multiplication
+	Moments
+
+Python (testing)
+	Find Stars
+	Align
+
+About
+	Help
+	About grepnova
+	About GrepNova2
+	Hot Keys

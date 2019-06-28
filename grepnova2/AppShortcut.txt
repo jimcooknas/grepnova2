@@ -1,0 +1,21 @@
+Template	None	T	84
+Subject	None	S	83
+Aligned Template	None	A	65
+Blink	None	B	66
+ZoomForm	None	Z	90
+Next	None	Right	39
+Previous	None	Left	37
+Template Bright Up	Shift	T	84
+Template Bright Down	Ctrl	T	84
+Subject Bright Up	Shift	S	83
+Subject Bright Down	Ctrl	S	83
+Aligned Template Bright Up	Shift	A	65
+Aligned Template Bright Down	Ctrl	A	65
+Refresh Batch	None	R	82
+Show Images Headers	None	H	72
+Remove Annotations	None	N	78
+Stretch Image	None	I	73
+Image Curve	None	C	67
+Save As Template	None	W	87
+Download from DSS	None	D	68
+Blank Subject	None	L	76
