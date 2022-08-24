@@ -1,0 +1,109 @@
+A	65	The A key
+B	66	The B key
+C	67	The C key
+D	68	The D key
+Decimal	110	The decimal key
+E	69	The E key
+F	70	The F key
+G	71	The G key
+H	72	The H key
+I	73	The I key
+J	74	The J key
+K	75	The K key
+L	76	The L key
+M	77	The M key
+N	78	The N key
+O	79	The O key
+P	80	The P key
+Q	81	The Q key
+R	82	The R key
+S	83	The S key
+T	84	The T key
+Tab	9	The TAB key
+U	85	The U key
+Up	38	The UP ARROW key
+V	86	The V key
+W	87	The W key
+X	88	The X key
+Y	89	The Y key
+Z	90	The Z key
+D0	48	The 0 key
+D1	49	The 1 key
+D2	50	The 2 key
+D3	51	The 3 key
+D4	52	The 4 key
+D5	53	The 5 key
+D6	54	The 6 key
+D7	55	The 7 key
+D8	56	The 8 key
+D9	57	The 9 key
+F1	112	The F1 key
+F10	121	The F10 key
+F11	122	The F11 key
+F12	123	The F12 key
+F2	113	The F2 key
+F3	114	The F3 key
+F4	115	The F4 key
+F5	116	The F5 key
+F6	117	The F6 key
+F7	118	The F7 key
+F8	119	The F8 key
+F9	120	The F9 key
+NumPad0	96	The 0 key on the numeric keypad
+NumPad1	97	The 1 key on the numeric keypad
+NumPad2	98	The 2 key on the numeric keypad
+NumPad3	99	The 3 key on the numeric keypad
+NumPad4	100	The 4 key on the numeric keypad
+NumPad5	101	The 5 key on the numeric keypad
+NumPad6	102	The 6 key on the numeric keypad
+NumPad7	103	The 7 key on the numeric keypad
+NumPad8	104	The 8 key on the numeric keypad
+NumPad9	105	The 9 key on the numeric keypad
+Oemcomma	188	The OEM comma key on any country/region keyboard (Windows 2000 or later)
+OemMinus	189	The OEM minus key on any country/region keyboard (Windows 2000 or later)
+OemOpenBrackets	219	The OEM open bracket key on a US standard keyboard (Windows 2000 or later)
+OemPeriod	190	The OEM period key on any country/region keyboard (Windows 2000 or later)
+OemPipe	220	The OEM pipe key on a US standard keyboard (Windows 2000 or later)
+Oemplus	187	The OEM plus key on any country/region keyboard (Windows 2000 or later)
+OemQuestion	191	The OEM question mark key on a US standard keyboard (Windows 2000 or later)
+OemQuotes	222	The OEM singled/double quote key on a US standard keyboard (Windows 2000 or later)
+OemSemicolon	186	The OEM Semicolon key on a US standard keyboard (Windows 2000 or later)
+Oem1	186	The OEM 1 key
+Oem2	191	The OEM 2 key
+Oem3	192	The OEM 3 key
+Oem4	219	The OEM 4 key
+Oem5	220	The OEM 5 key
+Oem6	221	The OEM 6 key
+Oem7	222	The OEM 7 key
+Oem8	223	The OEM 8 key
+Back	8	The BACKSPACE key
+Cancel	3	The CANCEL key
+CapsLock	20	The CAPS LOCK key
+ControlKey	17	The CTRL key
+Delete	46	The DEL key
+Divide	111	The divide key
+Down	40	The DOWN ARROW key
+End	35	The END key
+Enter	13	The ENTER key
+Escape	27	The ESC key
+Home	36	The HOME key
+Insert	45	The INS key
+LControlKey	162	The left CTRL key
+Left	37	The LEFT ARROW key
+LShiftKey	160	The left SHIFT key
+Multiply	106	The multiply key
+Next	34	The PAGE DOWN key
+NumLock	144	The NUM LOCK key
+PageDown	34	The PAGE DOWN key
+PageUp	33	The PAGE UP key
+Pause	19	The PAUSE key
+Print	42	The PRINT key
+PrintScreen	44	The PRINT SCREEN key
+RControlKey	163	The right CTRL key
+Return	13	The RETURN key
+Right	39	The RIGHT ARROW key
+RMenu	165	The right ALT key
+RShiftKey	161	The right SHIFT key
+ShiftKey	16	The SHIFT key
+Space	32	The SPACEBAR key
+Subtract	109	The subtract key

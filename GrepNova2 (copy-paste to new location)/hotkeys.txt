@@ -1,0 +1,15 @@
+			Grepnova2 Hot-Keys
+--------------------------------------------------------------
+T		Select Template Image (Template Tab)
+S		Select Subject Image (Subject Tab)
+A		Select Aligned Template (Aligned Template Tab)
+B		Select Blinking (Blink Tab)
+<		Step to the Previous Image in Subjects List 
+>		Step to the Next Image in Subjects List
+Z		Turn application to Zoom View			
+Shift + T	Brighten Template by 10%
+Shift + S	Brighten Subject by 10%
+Shift + A	Brighten Aligned Template by 10%
+Ctrl  + T	Dim Template by 10%
+Ctrl  + S	Dim Subject by 10%
+Ctrl  + A	Dim Aligned Template by 10%

@@ -1,0 +1,21 @@
+﻿//TODO 7-4-2019
+
+1. DONE: New Alignment internally, without the use of 'grepnova-align.bin.exe'
+   TODO: Alignment με scaling εικόνας
+	
+2. DONE: Images from DSS (Digital Sky Survey) http://archive.stsci.edu/cgi-bin/dss_form
+   TODO: We should check the resolution of image!!!!
+
+3. DONE: Sliders για το stretching: OK 
+   TODO: I should work also on negative values
+
+4. TODO: Έλεγχος για την πιθανότητα ήδη γνωστού SN στο πεδίο της εικόνας: https://wis-tns.weizmann.ac.il/search 
+
+5. DONE: Keyboard Shortcut Keys: OK @ 20190317
+
+6. DONE: Save current image as Template (menu: Utilities->Save as Template or key 'W')
+
+7. DONE: the user can register a suspect: Registration is done by Ctrl+Mouse_Click on Subject and saved as JPG. 
+   TODO: We should add X,Y posistion of subject on image (and also save it).
+   TODO: We should check the position solving of suspect.
+ 

@@ -1,0 +1,1947 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>grepnova2</name>
+    </assembly>
+    <members>
+        <member name="F:grepnova2.AboutBox1.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.AboutBox1.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:grepnova2.AboutBox1.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.AddNewHeaderField.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.AddNewHeaderField.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.AddNewHeaderField.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:grepnova2.Align">
+            <summary>
+            Class is needed for 'source_extract' function, to be used by the 'find brightest' in Form1
+            and in new Grepnova2 Alignment method
+            </summary>
+        </member>
+        <member name="M:grepnova2.Align.source_extract(grepnova2.Fits.imageptr,System.Int32)">
+                  starlist functions
+        </member>
+        <member name="F:grepnova2.Align.STEPSIZE_X">
+              alignment functions
+        </member>
+        <member name="M:grepnova2.Align.alignment_killmostdeviantstar(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Go through catalogue with proposed x,y,theta combination, seeing which star is worst fit
+            This star is chucked out of catalogue. If all stars are within three times the mean misfit, 
+            then we're done. (from 'grepnova' of D. Ford) 
+            </summary>
+            <param name="x">The proposed X displacement</param>
+            <param name="y">The proposed Y displacement</param>
+            <param name="theta">The proposed theta rotation angle (in radians)</param>
+            <param name="sca">The proposed scale</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Align.alignment_measurefit(System.Double[])">
+            <summary> 
+            Sums over all stars in catalogue, applying rotation/translation to template position, and comparing to subject position
+            (from 'grepnova' of D. Ford)
+            </summary>
+            <param name="input">doubles x, y and theta (translation and rotation)</param>
+            <returns>The value calculated by the function</returns>
+        </member>
+        <member name="M:grepnova2.Align.alignment_fit(grepnova2.Align.tripletmatches,grepnova2.Align.tripletlist,grepnova2.Align.tripletlist,grepnova2.Align.starlist,grepnova2.Align.starlist,grepnova2.Align.proposed_alignment)">
+            <summary>
+            Takes a list of matched triplets between two images, and tries to find a rotation/translation 
+            which brings these triplets to coincide, using an internal Nelder-Mead argorithm.
+            Nelder-Mead minimiser is applied to the summing over all matched stars the square distance 
+            between the position of that star in the two images, given proposed re-alignment. 
+            As some matches may well be erroneous, and dominate the sum of squares, this is performed 
+            repeated, each time discarding the worst fitting match. 
+            The process ends when all stars are within three times the average deviation
+            </summary>
+            <param name="matches">Tripletsmatches structure with matched triplets</param>
+            <param name="T">tripletlist structure for the triplets of Template</param>
+            <param name="S">tripletlist structure for the triplets of Subject</param>
+            <param name="Ts">starlist structure for the stars of Template</param>
+            <param name="Ss">starlist structure for the stars of Subject</param>
+            <param name="prop_align">the proposed_alignment structure to start minimization</param>
+            <returns>A proposed_alignment structure containing the found translation/rotation of alignment</returns>
+        </member>
+        <member name="M:grepnova2.Align.accord_fit_neldermead(grepnova2.Align.tripletmatches,grepnova2.Align.tripletlist,grepnova2.Align.tripletlist,grepnova2.Align.starlist,grepnova2.Align.starlist,grepnova2.Align.proposed_alignment)">
+            <summary>
+            Takes a list of matched triplets between two images, and tries to find a rotation/translation 
+            which brings these triplets to coincide, using the Accord.net Nelder-Mead argorithm.
+            Nelder-Mead minimiser is applied to the summing over all matched stars the square distance 
+            between the position of that star in the two images, given proposed re-alignment. 
+            As some matches may well be erroneous, and dominate the sum of squares, this is performed 
+            repeated, each time discarding the worst fitting match. 
+            The process ends when all stars are within three times the average deviation
+            </summary>
+            <param name="matches">Tripletsmatches structure with matched triplets</param>
+            <param name="T">tripletlist structure for the triplets of Template</param>
+            <param name="S">tripletlist structure for the triplets of Subject</param>
+            <param name="Ts">starlist structure for the stars of Template</param>
+            <param name="Ss">starlist structure for the stars of Subject</param>
+            <param name="prop_align">the proposed_alignment structure to start minimization</param>
+            <returns>A proposed_alignment structure containing the found translation/rotation of alignment</returns>
+        </member>
+        <member name="M:grepnova2.Align.accord_fit_cobyla(grepnova2.Align.tripletmatches,grepnova2.Align.tripletlist,grepnova2.Align.tripletlist,grepnova2.Align.starlist,grepnova2.Align.starlist,grepnova2.Align.proposed_alignment)">
+            <summary>
+            Takes a list of matched triplets between two images, and tries to find a rotation/translation 
+            which brings these triplets to coincide, using the Accord.net COBYLA argorithm.
+            Cobyla minimiser is applied to the summing over all matched stars the square distance 
+            between the position of that star in the two images, given proposed re-alignment. 
+            As some matches may well be erroneous, and dominate the sum of squares, this is performed 
+            repeated, each time discarding the worst fitting match.
+            Cobyla uses constraint about the scale result (always > 0)
+            The process ends when all stars are within three times the average deviation
+            </summary>
+            <param name="matches">Tripletsmatches structure with matched triplets</param>
+            <param name="T">tripletlist structure for the triplets of Template</param>
+            <param name="S">tripletlist structure for the triplets of Subject</param>
+            <param name="Ts">starlist structure for the stars of Template</param>
+            <param name="Ss">starlist structure for the stars of Subject</param>
+            <param name="prop_align">the proposed_alignment structure to start minimization</param>
+            <returns>A proposed_alignment structure containing the found translation/rotation of alignment</returns>
+        </member>
+        <member name="M:grepnova2.Align.minimizerNelderMead(System.Func{System.Double[],System.Double},System.Int32,System.Double[],grepnova2.Align.NelderMead_struct)">
+            <summary>
+            Internal Nelder-Mead minimization algorithm based on Sachin Joglekar's blog and
+            JAD (https://codereview.stackexchange.com/questions/176282/nelder-mead-algorithm-in-c)
+            </summary>
+            <param name="function">The function which return value we need to minimize</param>
+            <param name="N">Number of parameters the function uses as input valuws</param>
+            <param name="init_simplex">Initial values that must be a double[N] array</param>
+            <param name="nm">NelderMead_struct containing optimization parameters</param>
+            <returns>The optimized values of the initial array when function reaches its minimum</returns>
+        </member>
+        <member name="M:grepnova2.Align.alignment_init(grepnova2.Align.tripletmatches,System.Int32*)">
+            <summary>
+            Constructs arrays (and initialize catalogue_flag array) for quick lookup table of matched 
+            star positions
+            </summary>
+            <param name="matches">A tripletmatches structure containing thee matching triplets</param>
+            <param name="status">An int pointer to keep the status of the function (0=SUCCESS else FAILURE)</param>
+        </member>
+        <member name="T:grepnova2.Similarity">
+            <summary>
+            A new approach with this Similarity class.
+            With the 20 brightest stars in two images, tries to find out similar triangles.
+            When similar triangles are found, performs Nelder-Mead optimization to these triangles
+            to calculate the Translation, Rotation and Scaling of the two images.
+            Structures: point, triangle, similar_triangle
+            Functions : CheckSimilarityBySides, TripletSimilarity, MostSimilarTriangles,
+                        alignment_measurefit, accord_fit
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.USNO">
+            <summary>
+            Designation of the object
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.RAJ2000">
+            <summary>
+            Right Ascension at Eq=J2000, Ep=J2000 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.DEJ2000">
+            <summary>
+            Declination at Eq=J2000, Ep=J2000 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.e_RAJ2000">
+            <summary>
+            Mean error on RAdeg*cos(DEdeg) at Epoch 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.e_DEJ2000">
+            <summary>
+            Mean error on DEdeg at Epoch 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.Epoch">
+            <summary>
+            Mean epoch of observation 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.pmRA">
+            <summary>
+            Proper motion in RA (relative to YS4.0) 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.pmDE">
+            <summary>
+            Proper motion in DE (relative to YS4.0) 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.Ndet">
+            <summary>
+            Number of detections (7) 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.B1mag">
+            <summary>
+            First blue magnitude 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.R1mag">
+            <summary>
+            First red magnitude 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.B2mag">
+            <summary>
+            Second blue magnitude 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.R2mag">
+            <summary>
+            Second red magnitude 
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRCatalog.Catalog.Imag">
+            <summary>
+            Infrared (N) magnitude 
+            </summary>
+        </member>
+        <member name="F:grepnova2.AppSettings.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.AppSettings.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.AppSettings.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.Astrometry.TICPOS_struct.deglen">
+            <summary>
+            Double (in): length of axis in DEGREES
+            </summary>
+        </member>
+        <member name="F:grepnova2.Astrometry.TICPOS_struct.pixlen">
+            <summary>
+            Integer (in): length of axis in plotting units(pixels)
+            </summary>
+        </member>
+        <member name="F:grepnova2.Astrometry.TICPOS_struct.ticsize">
+            <summary>
+            Double (in/out): distance between tic marks(pixels), positive scalar
+            </summary>
+        </member>
+        <member name="F:grepnova2.Astrometry.TICPOS_struct.incr">
+            <summary>
+            Double (out): incremental value for tic marks in round units given by the UNITS parameter
+            </summary>
+        </member>
+        <member name="F:grepnova2.Astrometry.TICPOS_struct.units">
+            <summary>
+            String (out): giving units of ticsize, either 'ARC SECONDS', 'ARC MINUTES', or 'DEGREES'
+            </summary>
+        </member>
+        <member name="T:grepnova2.WCSUtil">
+            <summary>
+            World Coordinate System Utilities
+            </summary>
+        </member>
+        <member name="M:grepnova2.WCSUtil.worldpos(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.String,System.Double@,System.Double@)">
+            <summary>
+            routine to determine accurate position for pixel coordinates          
+            returns 0 if successful otherwise:                                    
+            1 = angle too large for projection;                                   
+            (WDP 1/97: changed the return value to 501 instead of 1)              
+            does: -SIN, -TAN, -ARC, -NCP, -GLS, -MER, -AIT projections            
+            anything else is linear (== -CAR)                                     
+            </summary>
+            <param name="xpix">x pixel number  (RA or longtitude without rotation)</param>
+            <param name="ypix">y pixel number  (dec or latitude without rotation)</param>
+            <param name="xref">x reference coordinate value (deg)</param>
+            <param name="yref">y reference coordinate value (deg)</param>
+            <param name="xrefpix">x reference pixel</param>
+            <param name="yrefpix">y reference pixel</param>
+            <param name="xinc">x coordinate increment (deg)</param>
+            <param name="yinc">y coordinate increment (deg)</param>
+            <param name="rot">rotation (deg)  (from N through E)</param>
+            <param name="type">projection type code e.g. "-SIN";</param>
+            <param name="xpos">x (RA) coordinate (deg)</param>
+            <param name="ypos">y (dec) coordinate (deg)  </param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.WCSUtil.worldpix(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.String,System.Double@,System.Double@)">
+            <summary>
+             routine to determine accurate pixel coordinates for an RA and Dec     */
+             returns 0 if successful otherwise:                                    */
+             1 = angle too large for projection;                                   */
+             2 = bad values                                                        */
+             WDP 1/97: changed the return values to 501 and 502 instead of 1 and 2 */
+             does: -SIN, -TAN, -ARC, -NCP, -GLS, -MER, -AIT projections            */
+             anything else is linear                                               */
+            </summary>
+            <param name="xpos">x (RA) coordinate (deg)</param>
+            <param name="ypos">y (dec) coordinate (deg)</param>
+            <param name="xref">x reference coordinate value (deg)</param>
+            <param name="yref">y reference coordinate value (deg)</param>
+            <param name="xrefpix">x reference pixel</param>
+            <param name="yrefpix">y reference pixel</param>
+            <param name="xinc">x coordinate increment (deg)</param>
+            <param name="yinc">y coordinate increment (deg)</param>
+            <param name="rot">rotation (deg)  (from N through E)</param>
+            <param name="type">projection type code e.g. "-SIN";</param>
+            <param name="xpix"> x pixel number  (RA or long without rotation)</param>
+            <param name="ypix">y pixel number  (dec or lat without rotation)</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.WCSUtil.WorldPos(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.String,System.Double@,System.Double@)">
+            <summary>
+            Function to determine accurate position for pixel coordinates which 
+            returns 0 if successful otherwise: 1 = angle too large for projection;                                  
+            does: -SIN, -TAN, -ARC, -NCP, -GLS, -MER, -AIT projections            
+            anything else is linear
+            </summary>
+            <param name="xpix">x pixel number  (RA or long without rotation)</param>
+            <param name="ypix">y pixel number  (dec or lat without rotation)</param>
+            <param name="xref">x reference coordinate value (deg)</param>
+            <param name="yref">y reference coordinate value (deg)</param>
+            <param name="xrefpix">x reference pixel</param>
+            <param name="yrefpix">y reference pixel</param>
+            <param name="xinc">x coordinate increment (deg)</param>
+            <param name="yinc">y coordinate increment (deg)</param>
+            <param name="rot">rotation (deg) (from N through E)</param>
+            <param name="type">projection type code e.g. "-SIN"</param>
+            <param name="xpos">output: x (RA) coordinate (deg)</param>
+            <param name="ypos">output: y (dec) coordinate (deg)</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.WCSUtil.XYPix(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.String,System.Double@,System.Double@)">
+            <summary>
+            Routine to determine accurate pixel coordinates for an RA and Dec which    
+            returns 0 if successful, otherwise:                                    
+                1 = angle too large for projection;
+                2 = bad values.
+            It does: -SIN, -TAN, -ARC, -NCP, -GLS, -MER, -AIT projections,
+            anything else is linear
+            </summary>                                 
+            <param name="xpos">x (RA) coordinate (deg)</param>
+            <param name="ypos">y(dec) coordinate(deg)</param>
+            <param name="xref">x reference coordinate value(deg)</param>
+            <param name="yref">y reference coordinate value(deg)</param>
+            <param name="xrefpix">x reference pixel</param>
+            <param name="yrefpix">y reference pixel</param>
+            <param name="xinc">x coordinate increment(deg)</param>
+            <param name="yinc">y coordinate increment(deg)</param>
+            <param name="rot">rotation(deg)  (from N through E)</param>
+            <param name="type">projection type code e.g. "-SIN";</param>
+            <param name="xpix">x pixel number(RA or long without rotation)</param>
+            <param name="ypix">y pixel number(dec or lat without rotation)</param>
+            <returns></returns>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resExit">
+            <summary>
+            Exit keyword (text): OK/ERROR (Plate solving performed/Unable to perform plate solving)
+            </summary>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resRA">
+            <summary>
+            Right ascension (numeric): Reports the resulting Right Ascension equatorial J2000 coordinate
+            of center of image "FileName", expressed in decimal degrees.
+            </summary>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resDec">
+            <summary>
+            Declination (numeric): Reports the resulting Declination equatorial J2000 coordinate
+            of center of image "FileName", expressed in decimal degrees.
+            </summary>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resRadius">
+            <summary>
+            Radius of 
+            </summary>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resFOVwidth">
+            <summary>
+            FOV width (numeric): Image field width(horizontal axis) of image "FileName", 
+            expressed in arcminutes.
+            </summary>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resFOVheight">
+            <summary>
+            FOV height (numeric): Image field height(vertical axis) of image "FileName",
+            expressed in arcminutes.
+            </summary>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resOrientation">
+            <summary>
+            Image rotation (numeric): Camera rotation of image "FileName", expressed in decimal degrees.
+            Data convention CROTA2 of .wcs format (world coordinate system).
+            </summary>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resPixelscale">
+            <summary>
+            Image scale (numeric): Scale of image "FileName", expressed in arcseconds per pixel.
+            </summary>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resFocalLength">
+            <summary>
+            Focal length (numeric): Real focal length of optics used, in millimeters.
+            It depends by the pixel size declared in input.
+            </summary>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resObjectNum">
+            <summary>
+            Number of Objects returned in plate
+            </summary>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.AstrometryResult.resObject">
+            <summary>
+            Object names returned in plate
+            </summary>
+        </member>
+        <member name="M:grepnova2.AstrometryForm.#ctor(System.String,grepnova2.Fits.imageptr)">
+            <summary>
+            Initialize AstrometryForm
+            </summary>
+            <param name="oName">the filename of the plate to solve</param>
+            <param name="img">the FITS image to upload</param>
+        </member>
+        <member name="M:grepnova2.AstrometryForm.astrometryPlateSolve(System.String)">
+            <summary>
+            Solves Plate by using astrometry.net API's
+            </summary>
+            <param name="fileName">The filename to upload for solving</param>
+            <returns></returns>
+        </member>
+        <member name="F:grepnova2.AstrometryForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.AstrometryForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.AstrometryForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.BitmapFiltering.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.BitmapFiltering.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.BitmapFiltering.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.TestCooknasMatrix(System.Int32,System.Int32)">
+            <summary>
+            Function to measure the time needed for inverting a Matrix
+            (for testing purposes only)
+            </summary>
+            <param name="counter"></param>
+            <param name="seed"></param>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixCreate(System.Int32,System.Int32)">
+            <summary>
+            Creates a new matrix (as jagged array) with given
+            Rows (rows) and Columns (cols)
+            </summary>
+            <param name="rows"></param>
+            <param name="cols"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixRandom(System.Int32,System.Int32,System.Int32,System.Double,System.Double)">
+            <summary>
+            Returns a matrix with random values
+            </summary>
+            <param name="rows"></param>
+            <param name="cols"></param>
+            <param name="minVal"></param>
+            <param name="maxVal"></param>
+            <param name="seed"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixIdentity(System.Int32)">
+            <summary>
+            Returns an n x n Identity matrix
+            </summary>
+            <param name="n"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixAsString(System.Double[][],System.Int32)">
+            <summary>
+            Creates a string representing the matrix
+            </summary>
+            <param name="matrix">The matrix to convert to string</param>
+            <param name="dec">Decimal digits of a double in the final string</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixAreEqual(System.Double[][],System.Double[][],System.Double)">
+            <summary>
+            Returns true if all values in matrixA == values in matrixB
+            (Equals means that their difference is less than epsilon)
+            </summary>
+            <param name="matrixA"></param>
+            <param name="matrixB"></param>
+            <param name="epsilon"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixProduct(System.Double[][],System.Double[][])">
+            <summary>
+            Multiplies two matrices given as jagged-arrays and returns the resulting
+            matrix as another jagged-array.  
+            </summary>
+            <param name="matrixA"></param>
+            <param name="matrixB"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixVectorProduct(System.Double[][],System.Double[])">
+            <summary>
+            result of multiplying an n x m matrix by a m x 1 
+            column vector (yielding an n x 1 column vector)
+            </summary>
+            <param name="matrix"></param>
+            <param name="vector"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixDecompose(System.Double[][],System.Int32[]@,System.Int32@)">
+            <summary>
+            Doolittle LUP decomposition with partial pivoting.
+            Returns: result is L (with 1s on diagonal) and U;
+            perm holds row permutations; toggle is +1 or -1 (even or odd)
+            </summary>
+            <param name="matrix"></param>
+            <param name="perm"></param>
+            <param name="toggle"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixInverse(System.Double[][])">
+            <summary>
+            Inverse Matrix
+            </summary>
+            <param name="matrix"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixDeterminant(System.Double[][])">
+            <summary>
+            Calculates the determinant of a matrix (if exists)
+            </summary>
+            <param name="matrix"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.HelperSolve(System.Double[][],System.Double[])">
+            <summary>
+            Helper function. Before calling this helper, permute b using the perm array
+            from MatrixDecompose that generated luMatrix
+            </summary>
+            <param name="luMatrix"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixDuplicate(System.Double[][])">
+            <summary>
+            Allocates/creates a duplicate of a matrix.
+            </summary>
+            <param name="matrix"></param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.SystemSolve(System.Double[][],System.Double[])">
+            <summary>
+            Solves a system of n equation of type Ax = b
+            k11.x1+k12.x2+...+k1n.xn = b1
+            k21.x1+k22.x2+...+k2n.xn = b2
+            ............................
+            km1.x1+km2.x2+...+kmn.xn = bn
+            </summary>
+            <param name="A">(k11,k12,...,k1n),.....,(km1,km2,....,kmn)</param>
+            <param name="b">(b1,b2,...,bn)</param>
+            <returns>x1,x2,x3,....,xn</returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixMultiplication(System.Double[0:,0:],System.Double[0:,0:])">
+            <summary>
+            Muntiplies two matrices given as 2d-arrays and returns the resulting
+            matrix as another 2d-array. The columns of first array must be equal to the rows of second
+            otherelse the function returns null.
+            </summary>
+            <param name="a">First array</param>
+            <param name="b">Second array</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.CooknasMatrix.MatrixMultiplication(System.Double[][],System.Double[][])">
+            <summary>
+            Muntiplies two matrices given as jagged-arrays and returns the resulting
+            matrix as another jagged-array. 
+            The columns of first array must be equal to the rows of second
+            otherelse the function returns null.
+            </summary>
+            <param name="first">First matrix as jagged array</param>
+            <param name="second">Second matrix as jagged array</param>
+            <returns></returns>
+        </member>
+        <member name="F:grepnova2.FitsHeaderProper.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.FitsHeaderProper.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.FitsHeaderProper.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:grepnova2.FFT2">
+             Performs an in-place complex FFT.
+            
+             Released under the MIT License
+            
+             Copyright (c) 2010 Gerald T. Beauregard
+            
+             Permission is hereby granted, free of charge, to any person obtaining a copy
+             of this software and associated documentation files (the "Software"), to
+             deal in the Software without restriction, including without limitation the
+             rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+             sell copies of the Software, and to permit persons to whom the Software is
+             furnished to do so, subject to the following conditions:
+            
+             The above copyright notice and this permission notice shall be included in
+             all copies or substantial portions of the Software.
+            
+             THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+             IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+             FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+             AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+             LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+             FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+             IN THE SOFTWARE.
+        </member>
+        <member name="M:grepnova2.FFT2.#ctor">
+            Class Constructor
+        </member>
+        <member name="M:grepnova2.FFT2.init(System.UInt32)">
+             Initialize class to perform FFT of specified size.
+            
+             @param   logN    Log2 of FFT length. e.g. for 512 pt FFT, logN = 9.
+        </member>
+        <member name="M:grepnova2.FFT2.run(System.Double[],System.Double[],System.Boolean)">
+             Performs in-place complex FFT.
+            
+             @param   xRe     Real part of input/output
+             @param   xIm     Imaginary part of input/output
+             @param   inverse If true, do an inverse FFT
+        </member>
+        <member name="M:grepnova2.FFT2.BitReverse(System.UInt32,System.UInt32)">
+             Do bit reversal of specified number of places of an int
+             For example, 1101 bit-reversed is 1011
+            
+             @param   x       Number to be bit-reverse.
+             @param   numBits Number of bits in the number.
+        </member>
+        <member name="M:grepnova2.Fits.ReadCardFieldToDate(System.String,System.String)">
+            <summary>
+            Opens the fits file pointed by pathfitsfile and reads the card by the field name cardField
+            and it returns it as a string after removing the T character (e.g. the T in 2016-10-12T10:22)
+            </summary>
+            <param name="pathfitsfile">the filename of the fits file to read</param>
+            <param name="cardField">the name of the card to read</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Fits.ReadCardFieldToString(System.String,System.String)">
+            <summary>
+            Opens the fits file pointed by pathfitsfile and reads the card by the field name cardField
+            and it returns it as a string
+            </summary>
+            <param name="pathfitsfile">the filename of the fits file to read</param>
+            <param name="cardField">the name of the card to read</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Fits.ReadCardFieldToInt(System.String,System.String)">
+            <summary>
+            Opens the fits file pointed by pathfitsfile and reads the card by the field name cardField
+            and it returns it as integer
+            </summary>
+            <param name="pathfitsfile">the filename of the fits file to read</param>
+            <param name="cardField">the name of the card to read</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Fits.ReadCardFieldToLong(System.String,System.String)">
+            <summary>
+            Opens the fits file pointed by pathfitsfile and reads the card by the field name cardField
+            and it returns it as long
+            </summary>
+            <param name="pathfitsfile">the filename of the fits file to read</param>
+            <param name="cardField">the name of the card to read</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Fits.ReadCardFieldToDouble(System.String,System.String)">
+            <summary>
+            Opens the fits file pointed by pathfitsfile and reads the card by the field name cardField
+            and it returns it as double
+            </summary>
+            <param name="pathfitsfile">the filename of the fits file to read</param>
+            <param name="cardField">the name of the card to read</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Fits.ReadCardFieldToFloat(System.String,System.String)">
+            <summary>
+            Opens the fits file pointed by pathfitsfile and reads the card by the field name cardField
+            and it returns it as float
+            </summary>
+            <param name="pathfitsfile">the filename of the fits file to read</param>
+            <param name="cardField">the name of the card to read</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Fits.fitsdata2console(System.String,System.Boolean)">
+            <summary>
+            Dumps the data of a fits image to the Log area and to Console
+            </summary>
+            <param name="fn">the filename of FITS file</param>
+            <param name="toConsole">if true then dump goes also to console</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Fits.save_fits(grepnova2.Fits.imageptr,System.String)">
+            <summary>
+            Save the imageptr structure to a FITS file. Currently only a BasicHDU is foreseen for this file
+            </summary>
+            <param name="img">the imageptr structure to save</param>
+            <param name="fn">the FITS filename where we save the structure</param>
+        </member>
+        <member name="M:grepnova2.Fits.calc_histogram(grepnova2.Fits.imageptr,System.Int32,System.Boolean)">
+            <summary>
+            Creates an array of bin elements (float) and calculates the elements
+            of this array to contain the values of image.data array in each bin
+            </summary>
+            <param name="image">imageptr structure that we need to calculate histogram</param>
+            <param name="bin">the number of bins to divide the data. Default is 256</param>
+            <param name="isLogarithmic">if true calculates the values as logarithms. Default is true</param>
+            <returns>Returns a floats array.</returns>
+        </member>
+        <member name="M:grepnova2.Fits.SetBrightness(System.Int32,System.Int32)">
+            <summary>
+            Adds a brightness value in a given value (val)
+            </summary>
+            <param name="val">the value where to add the brightness</param>
+            <param name="brightness">the brightness value</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Fits.SetContrast(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Sets the contrast of a value in a given value (given a max value)
+            </summary>
+            <param name="val">the pixel value which will be changed by contrast</param>
+            <param name="contrast">th contrast value</param>
+            <param name="max">a value to be used for contrast calculation</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Fits.ResizeImageptr(grepnova2.Fits.imageptr,grepnova2.Fits.imageptr,System.Int32)">
+            <summary>
+            Resizes template by either neibour or bi-linear algorithm
+            </summary>
+            <param name="tmp">imageptr structure of template</param>
+            <param name="subj">imageptr structure of subject</param>
+            <param name="scale_type">the type of scaling (0=neibour, 1=bi-linear)</param>
+            <returns>returns the imageptr structure of the scaled image</returns>
+        </member>
+        <member name="M:grepnova2.Fits.scale_fits_neibour(grepnova2.Fits.imageptr,grepnova2.Fits.imageptr)">
+            <summary>
+            Performs a basic 'pixel' enlarging re-sampling.
+            </summary>
+            <param name="tmp">imageptr structure of template</param>
+            <param name="subj">imageptr structure of subject</param>
+            <returns>returns the imageptr structure of the scaled image</returns>
+        </member>
+        <member name="M:grepnova2.Fits.scale_fits_bilinear(grepnova2.Fits.imageptr,System.Int32,System.Int32)">
+            <summary>
+            Performs a Bilinear Interpolation 'pixel' enlarging re-sampling (http://rosettacode.org)
+            </summary>
+            <param name="src">the imageptr structure of source</param>
+            <param name="wi">the width of the finally scaled source</param>
+            <param name="hi">the height of the finally scaled source</param>
+            <returns>returns the scaled imageptr structure</returns>
+        </member>
+        <member name="M:grepnova2.Fits.IsDouble(System.String)">
+            <summary>
+            Method checks if passed string is double
+            </summary>
+            <param name="text">string text for checking</param>
+            <returns>bool - if text is double return true, else return false</returns>
+        </member>
+        <member name="M:grepnova2.Fits.IsNumber(System.String)">
+            <summary>
+            Method checks if passed string is integer
+            </summary>
+            <param name="text">string text for checking</param>
+            <returns>bool - if text is integer return true, else return false</returns>
+        </member>
+        <member name="T:grepnova2.Filters">
+            <summary>
+            class Filters for filtering Bitmap images
+            </summary>
+        </member>
+        <member name="M:grepnova2.Filters.CopyAsNegative(System.Drawing.Image)">
+            <summary>
+            Returns the negative image of the calling image
+            </summary>
+            <param name="sourceImage">the calling image</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Filters.MedianFilter(System.Drawing.Image,System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Returns the Median filtered image of the calling image with the given
+            matrixSize (e.g 3x3 or 9x9)
+            </summary>
+            <param name="sourceBitmap">the bitmap where we perform the Filter</param>
+            <param name="matrixSize">the matrix of the Filter</param>
+            <param name="bias">a bias value for the Filter. Default is 0</param>
+            <param name="grayscale">if convert the output to grayscale. Default is true</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.Filters.ColorBalance(System.Drawing.Image,System.Byte,System.Byte,System.Byte,System.Boolean)">
+            <summary>
+            Returns the ColorBalanced image of the calling image or the reversed Balanced one 
+            (depending on parameter reverse) by the value of red-blue-green level (0-255)
+            </summary>
+            <param name="sourceBitmap"></param>
+            <param name="blueLevel"></param>
+            <param name="greenLevel"></param>
+            <param name="redLevel"></param>
+            <param name="reverse"></param>
+            <returns></returns>
+        </member>
+        <member name="F:grepnova2.FitsHeaders.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.FitsHeaders.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.FitsHeaders.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:grepnova2.Form1.UseMyWaitCursor(System.Boolean)">
+            <summary>
+            Call to toggle between the current cursor and the wait cursor
+            </summary>
+            <param name="toggleWaitCursorOn">True for wait cursor, false for default.</param>
+        </member>
+        <member name="M:grepnova2.Form1.clearTemplatesFolderToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Deletes all files contained in Templates Folder and Clears Tamplates list
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:grepnova2.Form1.clearSubjectsFolderToolStripMenuItem_Click(System.Object,System.EventArgs)">
+            <summary>
+            Deletes all files contained in Subjects Folder and Clears Subjects list
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="F:grepnova2.Form1.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.Form1.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.Form1.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:grepnova2.HotKeys.#ctor">
+            <summary>
+            Shows the application's hot-keys (shortcuts)
+            </summary>
+        </member>
+        <member name="M:grepnova2.HotKeys.GetKeysFromFile(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="fn"></param>
+        </member>
+        <member name="F:grepnova2.HotKeys.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.HotKeys.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.HotKeys.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:grepnova2.HttpHelper.Unso(System.String,System.String,System.Single,System.Single,System.Int32)">
+            <summary>
+            Specifies the URL to receive the request and contacts VisieR site and asks for stars' catalog
+            </summary>
+            <param name="radeg">Right Asension in degrees or sexagesimal form</param>
+            <param name="decdeg">Declination in degrees or sexagesimal form</param>
+            <param name="fovamw">width of view in arcminutes</param>
+            <param name="fovamh">height of view in arcminutes</param>
+            <param name="max">Maximum number of returned stars (0 means unlimited)</param>
+            <returns>A string containing the List of results (in asu-tsv form)</returns>
+        </member>
+        <member name="F:grepnova2.ImageCurve.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.ImageCurve.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.ImageCurve.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.ImageCurveForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.ImageCurveForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.ImageCurveForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.ImageDiffWindow.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.ImageDiffWindow.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.ImageDiffWindow.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:grepnova2.ImageMoments">
+            <summary>
+            A class that calculates the Image Moment, which is a weighted average of image pixel intensities.
+            This class calculates Raw Moments, Central Moments, Normalized Central Moments and Hu Moments as well
+            as the distance between two images. 
+            Main idea from SATYA MALLICK in Learn OpenCV (see at https://www.learnopencv.com/shape-matching-using-hu-moments-c-python/)
+            </summary>
+        </member>
+        <member name="M:grepnova2.ImageMoments.#ctor(System.Double[0:,0:],System.Double[0:,0:])">
+            <summary>
+            Constructor of ImageMoments class based on two 2D arrays of double
+            </summary>
+            <param name="a">First 2D array</param>
+            <param name="b">Second 2D array</param>
+        </member>
+        <member name="M:grepnova2.ImageMoments.#ctor(grepnova2.Fits.imageptr,grepnova2.Fits.imageptr)">
+            <summary>
+            Constructor of ImageMoments class based on two Fits.imageptr structures
+            </summary>
+            <param name="a">First Fits.imageptr structure</param>
+            <param name="b">Second Fits.imageptr structure</param>
+        </member>
+        <member name="M:grepnova2.ImageMoments.convertFitsForMoment(grepnova2.Fits.imageptr)">
+            <summary>
+            Gets an imageptr structure and calculates a 2D array of doubles 
+            </summary>
+            <param name="p">the Fits.imageptr</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.ImageMoments.calcMomentMean(System.Double[0:,0:])">
+            <summary>
+            Calculates the wighted mean X and Y of an image based on Raw Moment of a 2D array
+            </summary>
+            <param name="m">the 2D array of doubles</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.ImageMoments.calcRawMoment(System.Double[0:,0:],System.Int32,System.Int32)">
+            <summary>
+            Calculates the Raw Moment of a 2D array
+            </summary>
+            <param name="m">the 2D array of doubles</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.ImageMoments.calcCentralMoment(System.Double[0:,0:],System.Int32,System.Int32)">
+            <summary>
+            Calculates the Central Moment of a 2D array, given the orders of i and j
+            </summary>
+            <param name="m">the 2D array of doubles</param>
+            <param name="i">the first order of Central Moment</param>
+            <param name="j">the second order of Central Moment</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.ImageMoments.calcNormCentralMoment(System.Double[0:,0:],System.Int32,System.Int32)">
+            <summary>
+            Calculates theNormalized Central Moment of a 2D array, given the orders of i and j
+            </summary>
+            <param name="m">the 2D array of doubles</param>
+            <param name="i">the first order of Central Moment</param>
+            <param name="j">the second order of Central Moment</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.ImageMoments.calcNormCentralMoment(System.Double[0:,0:],System.Double,System.Int32,System.Int32)">
+            <summary>
+            Calculates theNormalized Central Moment of a 2D array, given the orders of i and j
+            and the Raw Moment m00
+            </summary>
+            <param name="m">the 2D array of doubles</param>
+            <param name="m00">the Raw Moment m00</param>
+            <param name="i">the first order of Central Moment</param>
+            <param name="j">the second order of Central Moment</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.ImageMoments.calcInvariantMoments(System.Double[0:,0:])">
+            <summary>
+            Calculates the Hu Moment of a 2D array
+            </summary>
+            <param name="m">the 2D array of doubles</param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.ImageMoments.calcImageDistance(System.Double[0:,0:],System.Double[0:,0:],grepnova2.ImageMoments.matchType)">
+            <summary>
+            Calculates the Distance of two Images given as 2D arrays of double. There are four types of
+            calculation: CONTOURS_MATCH_I1, CONTOURS_MATCH_I2, CONTOURS_MATCH_I3, CONTOURS_MATCH_EUCLIDEAN
+            based on different formulas ("https://www.researchgate.net/publication/224146066_Analysis_of_Hu's_moment_invariants_on_image_scaling_and_rotation")
+            </summary>
+            <param name="m">the 2D array of doubles</param>
+            <returns></returns>
+        </member>
+        <member name="F:grepnova2.MaxForm2.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.MaxForm2.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.MaxForm2.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:grepnova2.MyMessageBox.ShowDialog(System.String,System.Int32,System.String,System.Int32,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Custom MessageBox
+            </summary>
+            <param name="title">The title of the message-dialog</param>
+            <param name="text_type">if text is plain text (0) or html formatted (1)</param>
+            <param name="msg">The text of the message-dialog</param>
+            <param name="Cbtn">The number of Buttons on the message-dialog. Default is 0</param>
+            <param name="btnOK_text">The text to appear on btnOK button</param>
+            <param name="btnNO_text">The text to appear on btnNO button</param>
+            <param name="btnYES_text">The text to appear on btnYES button</param>
+            <param name="imgtype">The type of picturebox (0=info, 1=warning, 2=critical). Default is 0</param>
+            <returns></returns>
+        </member>
+        <member name="F:grepnova2.MyMessageBox.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.MyMessageBox.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.MyMessageBox.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:grepnova2.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:grepnova2.ProgressIndicator">
+            <summary>
+            Firefox like circular progress indicator.
+            </summary>
+        </member>
+        <member name="M:grepnova2.ProgressIndicator.#ctor">
+            <summary>
+            Default constructor for the ProgressIndicator.
+            </summary>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.CircleColor">
+            <summary>
+            Gets or sets the base color for the circles.
+            </summary>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.AutoStart">
+            <summary>
+            Gets or sets a value indicating if the animation should start automatically.
+            </summary>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.CircleSize">
+            <summary>
+            Gets or sets the scale for the circles raging from 0.1 to 1.0.
+            </summary>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.AnimationSpeed">
+            <summary>
+            Gets or sets the animation speed.
+            </summary>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.NumberOfCircles">
+            <summary>
+            Gets or sets the number of circles used in the animation.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"><c>NumberOfCircles</c> is out of range.</exception>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.NumberOfVisibleCircles">
+            <summary>
+            Gets or sets the number of circles used in the animation.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"><c>NumberOfCircles</c> is out of range.</exception>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.Rotation">
+            <summary>
+            Gets or sets a value indicating if the rotation should be clockwise or counter-clockwise.
+            </summary>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.Percentage">
+            <summary>
+            Gets or sets the percentage to show on the control.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException"><c>Percentage</c> is out of range.</exception>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.ShowPercentage">
+            <summary>
+            Gets or sets a value indicating if the percentage value should be shown.
+            </summary>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.ShowText">
+            <summary>
+            Gets or sets a value indicating if the control text should be shown.
+            </summary>
+        </member>
+        <member name="P:grepnova2.ProgressIndicator.TextDisplay">
+            <summary>
+            Gets or sets the property that will be shown in the control.
+            </summary>
+        </member>
+        <member name="M:grepnova2.ProgressIndicator.Start">
+            <summary>
+            Starts the animation.
+            </summary>
+        </member>
+        <member name="M:grepnova2.ProgressIndicator.Stop">
+            <summary>
+            Stops the animation.
+            </summary>
+        </member>
+        <member name="F:grepnova2.ProgressIndicator.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.ProgressIndicator.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.ProgressIndicator.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:grepnova2.RotationType">
+            <summary>
+            An enum used to indicate the rotational direction of the control.
+            </summary>
+        </member>
+        <member name="F:grepnova2.RotationType.Clockwise">
+            <summary>
+            Indicates that the rotation should move clockwise.
+            </summary>
+        </member>
+        <member name="F:grepnova2.RotationType.CounterClockwise">
+            <summary>
+            Indicates that the rotation should move counter-clockwise.
+            </summary>
+        </member>
+        <member name="T:grepnova2.TextDisplayModes">
+            <summary>
+            This enum is used to choose what text should be shown in the control.
+            </summary>
+        </member>
+        <member name="F:grepnova2.TextDisplayModes.None">
+            <summary>
+            No text will be shown by the control.
+            </summary>
+        </member>
+        <member name="F:grepnova2.TextDisplayModes.Percentage">
+            <summary>
+            The control will show the value of the Percentage property.
+            </summary>
+        </member>
+        <member name="F:grepnova2.TextDisplayModes.Text">
+            <summary>
+            The control will show the value of the Text property.
+            </summary>
+        </member>
+        <member name="F:grepnova2.TextDisplayModes.Both">
+            <summary>
+            The control will show the values of the Text and Percentage properties.
+            </summary>
+        </member>
+        <member name="T:grepnova2.SelectionRangeSlider">
+            <summary>
+            Very basic slider control with selection range.
+            </summary>
+        </member>
+        <member name="P:grepnova2.SelectionRangeSlider.TextColor">
+            <summary>
+            Color of the text values.
+            </summary>
+        </member>
+        <member name="P:grepnova2.SelectionRangeSlider.Offset">
+            <summary>
+            Left-Right offset of control.
+            </summary>
+        </member>
+        <member name="P:grepnova2.SelectionRangeSlider.Min">
+            <summary>
+            Minimum value of the slider.
+            </summary>
+        </member>
+        <member name="P:grepnova2.SelectionRangeSlider.Max">
+            <summary>
+            Maximum value of the slider.
+            </summary>
+        </member>
+        <member name="P:grepnova2.SelectionRangeSlider.SelectedMin">
+            <summary>
+            Minimum value of the selection range.
+            </summary>
+        </member>
+        <member name="P:grepnova2.SelectionRangeSlider.SelectedMax">
+            <summary>
+            Maximum value of the selection range.
+            </summary>
+        </member>
+        <member name="P:grepnova2.SelectionRangeSlider.Value">
+            <summary>
+            Current value.
+            </summary>
+        </member>
+        <member name="E:grepnova2.SelectionRangeSlider.SelectionChanged">
+            <summary>
+            Fired when SelectedMin or SelectedMax changes.
+            </summary>
+        </member>
+        <member name="E:grepnova2.SelectionRangeSlider.ValueChanged">
+            <summary>
+            Fired when Value changes.
+            </summary>
+        </member>
+        <member name="T:grepnova2.SelectionRangeSlider.MovingMode">
+            <summary>
+            To know which thumb is moving
+            </summary>
+        </member>
+        <member name="F:grepnova2.SelectionRangeSlider.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.SelectionRangeSlider.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.SelectionRangeSlider.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.ServerSite.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.ServerSite.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.ServerSite.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.Settings.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.Settings.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.Settings.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:grepnova2.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.applyfilter">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.ARW07DN">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.ARW07LT">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.ARW07RT">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.ARW07UP">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.circle">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.circle_black">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.cross">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.cross_black">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.DELETE">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.disk_fits">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.disk_jpg1">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.EXPLORER">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.eye_pass">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.eye_pass_no">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.eye_pass1">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.file">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.filter">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.folder">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.GRAPH01">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.GRAPH04">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.grepnova">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.grepnova2">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.grepnova2a">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.grepnova2b">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.histo">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.Icon1">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.if_messagebox_critical">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.if_messagebox_info">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.if_messagebox_warning">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.light_green">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.light_green1">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.light_red">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.media_floppy">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.NEW">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.NOTE06">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.OPEN">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.starliist2">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.starlist">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Bitmap.
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.starlist_new">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:grepnova2.Properties.Resources.SUN">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="F:grepnova2.SharpenFITS.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.SharpenFITS.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.SharpenFITS.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.StarGraph.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.StarGraph.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.StarGraph.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.StatisticsForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.StatisticsForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.StatisticsForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.StretchImage.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.StretchImage.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.StretchImage.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:grepnova2.VisieRList.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:grepnova2.VisieRList.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:grepnova2.VisieRList.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:grepnova2.ListViewColumnSorter">
+            <summary>
+            This class is an implementation of the 'IComparer' interface.
+            </summary>
+        </member>
+        <member name="F:grepnova2.ListViewColumnSorter.ColumnToSort">
+            <summary>
+            Specifies the column to be sorted
+            </summary>
+        </member>
+        <member name="F:grepnova2.ListViewColumnSorter.OrderOfSort">
+            <summary>
+            Specifies the order in which to sort (i.e. 'Ascending').
+            </summary>
+        </member>
+        <member name="F:grepnova2.ListViewColumnSorter.ObjectCompare">
+            <summary>
+            Case insensitive comparer object
+            </summary>
+        </member>
+        <member name="M:grepnova2.ListViewColumnSorter.#ctor">
+            <summary>
+            Class constructor.  Initializes various elements
+            </summary>
+        </member>
+        <member name="M:grepnova2.ListViewColumnSorter.Compare(System.Object,System.Object)">
+            <summary>
+            This method is inherited from the IComparer interface.  It compares the two objects passed using a case insensitive comparison.
+            </summary>
+            <param name="x">First object to be compared</param>
+            <param name="y">Second object to be compared</param>
+            <returns>The result of the comparison. "0" if equal, negative if 'x' is less than 'y' and positive if 'x' is greater than 'y'</returns>
+        </member>
+        <member name="P:grepnova2.ListViewColumnSorter.SortColumn">
+            <summary>
+            Gets or sets the number of the column to which to apply the sorting operation (Defaults to '0').
+            </summary>
+        </member>
+        <member name="P:grepnova2.ListViewColumnSorter.Order">
+            <summary>
+            Gets or sets the order of sorting to apply (for example, 'Ascending' or 'Descending').
+            </summary>
+        </member>
+        <member name="T:grepnova2.WCSUtils">
+            <summary>
+            World Coordinate System Utilities
+            </summary>
+        </member>
+        <member name="M:grepnova2.WCSUtils.worldpos(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.String,System.Double@,System.Double@)">
+            <summary>
+            routine to determine accurate position for pixel coordinates          
+            returns 0 if successful otherwise:                                    
+            1 = angle too large for projection;                                   
+            (WDP 1/97: changed the return value to 501 instead of 1)              
+            does: -SIN, -TAN, -ARC, -NCP, -GLS, -MER, -AIT projections            
+            anything else is linear (== -CAR)                                     
+            </summary>
+            <param name="xpix">x pixel number  (RA or long without rotation)</param>
+            <param name="ypix">y pixel number  (dec or lat without rotation)</param>
+            <param name="xref">x reference coordinate value (deg)</param>
+            <param name="yref">y reference coordinate value (deg)</param>
+            <param name="xrefpix">x reference pixel</param>
+            <param name="yrefpix">y reference pixel</param>
+            <param name="xinc">x coordinate increment (deg)</param>
+            <param name="yinc">y coordinate increment (deg)</param>
+            <param name="rot">rotation (deg)  (from N through E)</param>
+            <param name="type">projection type code e.g. "-SIN";</param>
+            <param name="xpos">x (RA) coordinate (deg)</param>
+            <param name="ypos">y (dec) coordinate (deg)  </param>
+            <returns></returns>
+        </member>
+        <member name="M:grepnova2.WCSUtils.xypix(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.Double,System.String,System.Double@,System.Double@)">
+            <summary>
+             routine to determine accurate pixel coordinates for an RA and Dec     */
+             returns 0 if successful otherwise:                                    */
+             1 = angle too large for projection;                                   */
+             2 = bad values                                                        */
+             WDP 1/97: changed the return values to 501 and 502 instead of 1 and 2 */
+             does: -SIN, -TAN, -ARC, -NCP, -GLS, -MER, -AIT projections            */
+             anything else is linear                                               */
+            </summary>
+            <param name="xpos">x (RA) coordinate (deg)</param>
+            <param name="ypos">y (dec) coordinate (deg)</param>
+            <param name="xref">x reference coordinate value (deg)</param>
+            <param name="yref">y reference coordinate value (deg)</param>
+            <param name="xrefpix">x reference pixel</param>
+            <param name="yrefpix">y reference pixel</param>
+            <param name="xinc">x coordinate increment (deg)</param>
+            <param name="yinc">y coordinate increment (deg)</param>
+            <param name="rot">rotation (deg)  (from N through E)</param>
+            <param name="type">projection type code e.g. "-SIN";</param>
+            <param name="xpix"> x pixel number  (RA or long without rotation)</param>
+            <param name="ypix">y pixel number  (dec or lat without rotation)</param>
+            <returns></returns>
+        </member>
+        <member name="T:CooknasHistogram.CooknasHistogram">
+            <summary>
+            Summary description for HistogramaDesenat.
+            </summary>
+        </member>
+        <member name="F:CooknasHistogram.CooknasHistogram.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:CooknasHistogram.CooknasHistogram.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:CooknasHistogram.CooknasHistogram.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:CooknasHistogram.CooknasHistogram.DrawHistogram(System.Int32[],System.Int32,System.Int32)">
+            <summary>
+            We draw the histogram on the control
+            </summary>
+            <param name="Values">The values beeing draw</param>
+            <param name="myXPoint">X coordinate</param>
+            <param name="myYPoint">Y coordinate</param>
+        </member>
+        <member name="M:CooknasHistogram.CooknasHistogram.getMaxim(System.Int32[])">
+            <summary>
+            We get the highest value from the array
+            </summary>
+            <param name="Vals">The array of values in which we look</param>
+            <returns>The maximum value</returns>
+        </member>
+        <member name="T:CooknasStar.CooknasStar">
+            <summary>
+            Summary description for cooknasStar.
+            </summary>
+        </member>
+        <member name="F:CooknasStar.CooknasStar.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:CooknasStar.CooknasStar.#ctor">
+            <summary>
+            Class constructor
+            </summary>
+        </member>
+        <member name="M:CooknasStar.CooknasStar.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+        </member>
+        <member name="M:CooknasStar.CooknasStar.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:CooknasStar.CooknasStar.GetDistances">
+            <summary>
+            Gets the dist[] array of distances from centroid
+            </summary>
+        </member>
+        <member name="P:CooknasStar.CooknasStar.GetValues">
+            <summary>
+            Gets the values[] array of intensities
+            </summary>
+        </member>
+        <member name="P:CooknasStar.CooknasStar.OffsetX">
+            <summary>
+            The horizontal distance from the margins for the graph
+            </summary>
+        </member>
+        <member name="P:CooknasStar.CooknasStar.OffsetY">
+            <summary>
+            The vertical distance from the margins for the graph
+            </summary>
+        </member>
+        <member name="P:CooknasStar.CooknasStar.DisplayColor">
+            <summary>The color used to draw the graph points</summary>
+        </member>
+        <member name="M:CooknasStar.CooknasStar.DrawStar(System.Double[],System.Double[],System.Int32,System.Int32)">
+            <summary>
+            We draw the star sequence on the control
+            </summary>
+            <param name="dist">the distances from centroid</param>
+            <param name="Values">The values beeing draw</param>
+            <param name="myXPoint">the reference x coordinate</param>
+            <param name="myYPoint">the reference y coordinate</param>
+        </member>
+        <member name="M:CooknasStar.CooknasStar.getMaxim(System.Double[],System.Int32)">
+            <summary>
+            We get the highest value from the array
+            </summary>
+            <param name="Vals">The array of values in which we look</param>
+            <param name="trailingZeros">power of ten size of Vals</param>
+            <returns>The maximum value</returns>
+        </member>
+        <member name="T:CooknasStar.Centroid">
+            <summary>
+            Class calculating the centroid of a star
+            <para>
+            <list type="table">
+            <item><description>How Calculations are made:</description></item>
+            <item><description>x sum is sum of all pixel intensities * their distance from X Val</description></item>
+            <item><description>y sum is sum of all pixel intensities * their distance from Y Val</description></item>
+            <item><description>sum is sum of all pixel intensities</description></item>
+            <item><description>x centroid = x sum / sum</description></item>
+            <item><description>y centroid = y sum / sum</description></item>
+            </list></para>
+            Note: Once highest intensity pixel was found, all sum data was restricted
+                  to a SIZExSIZE box around it, as per the algorithm.
+            </summary>
+        </member>
+        <member name="T:CooknasStar.Centroid.STAR_COORD">
+            <summary>
+            Structure that keeps the coordinates of a star (centroid) together with its intensity value and
+            a text describing calculation data
+            </summary>
+        </member>
+        <member name="F:CooknasStar.Centroid.STAR_COORD.X">
+            <summary>x coordinate as double</summary>
+        </member>
+        <member name="F:CooknasStar.Centroid.STAR_COORD.Y">
+            <summary>y coordinatem as double</summary>
+        </member>
+        <member name="F:CooknasStar.Centroid.STAR_COORD.val">
+            <summary>intensity of specified coordinate as int</summary>
+        </member>
+        <member name="F:CooknasStar.Centroid.STAR_COORD.text">
+            <summary>formated text with calculation steps</summary>
+        </member>
+        <member name="F:CooknasStar.Centroid.SIZE">
+            <summary>size of grid (SIZExSIZE)</summary>
+        </member>
+        <member name="F:CooknasStar.Centroid.BACK">
+            <summary>center of the grid</summary>
+        </member>
+        <member name="P:CooknasStar.Centroid.GetText">
+            <summary>
+            Gets the formatted text of centroid solve
+            </summary>
+        </member>
+        <member name="M:CooknasStar.Centroid.position(grepnova2.Fits.imageptr,System.Int32,System.Int32,CooknasStar.CooknasStar)">
+            <summary>
+            This function gets the mouse click position on an imageptr and calculates
+            the centroid of the closest star.
+            <para>Function returns a <see cref="T:CooknasStar.Centroid.STAR_COORD"/> structure with the coordinates of the
+            centroid together with a printable string and (if cooknasStar control is given) it draws
+            the CooknasStar graph.</para>
+            </summary>
+            <remarks>
+            Idea taken from an alladin plugin, written in java, given in:
+            https://aladin.u-strasbg.fr/java/Plugins/Centroid.java 
+            </remarks> 
+            <param name="img">imageptr of the clicked image</param>
+            <param name="mouseX">the x coordinate of the clicked point</param>
+            <param name="mouseY">the y coordinate of the clicked point</param>
+            <param name="cooknasStar">the CooknasStar control where to draw the graph</param>
+            <returns>a STAR_COORD structure with the coordinates of the centroid together with a printable string</returns>
+        </member>
+    </members>
+</doc>
