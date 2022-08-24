@@ -17,7 +17,7 @@ Grepnova2 initially started as grepnova version 1.0.0, re-coding Dominic’s cod
 
 Respecting Dominic Ford’s grepnova (as this was an inspiration source) I kept the Users’s Guide template and format according to initial Dominic’s Guide. I also kept intact Dominic’s wording in all places of this Guide that refer to original grepnova.
 
-<b>Setup folder>/b>
+<b>Setup folder</b>
 The folder <b>GrepNova2 (copy-paste to new location)</b> is a folder containing all executable files, compiled in MS Visual Studio 2019 (Windows 10). Copy all these files in a folder of your choice and run the <b>grepnova2.exe</b> executable
   
   <b>Sample files</b>
