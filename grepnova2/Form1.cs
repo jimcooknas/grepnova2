@@ -711,8 +711,10 @@ namespace grepnova2
                 serverSite.ShowDialog();
                 if (ftpFiles != null)
                 {
-                    //lstTemplates.Items.Clear();//do not clear list
+                    lstTemplates.Items.Clear();//do not clear list
                     Int32 maxFiles = ftpFiles.Length;
+                    tempData = new List<files_dates>();
+                    //Console.WriteLine("ftpFiles size: " + maxFiles);
                     if (!ftpFolderPath.EndsWith("/")) ftpFolderPath += "/";
                     for (int i = 0; i < maxFiles; i++)
                     {
@@ -735,6 +737,8 @@ namespace grepnova2
                         }
                     }
                     txtTemplatesDir.Text = ftpFolderPath;
+                    lstTemplates.Items.Clear();
+                    //Console.WriteLine("tempData size: " + tempData.Count);
                     foreach (files_dates o in tempData) lstTemplates.Items.Add(o.filename);
                     lblTemplateNo.Text = String.Format("{0}/{1}", 0, lstTemplates.Items.Count);
                 }
@@ -764,8 +768,9 @@ namespace grepnova2
                 serverSite.ShowDialog();
                 if (ftpFiles != null)
                 {
-                    //lstSubjects.Items.Clear();//do not clear list
+                    lstSubjects.Items.Clear();//do not clear list
                     Int32 maxFiles = ftpFiles.Length;
+                    subjData = new List<files_dates>();
                     if (!ftpFolderPath.EndsWith("/")) ftpFolderPath += "/";
                     for (int i = 0; i < maxFiles; i++)
                     {
@@ -792,6 +797,7 @@ namespace grepnova2
                         }
                     }
                     txtSubjectsDir.Text = ftpFolderPath;
+                    lstSubjects.Items.Clear();
                     foreach (files_dates o in subjData) lstSubjects.Items.Add(o.filename);
                     lblSubjectNo.Text = String.Format("{0}/{1}", 0, lstSubjects.Items.Count);
                 }

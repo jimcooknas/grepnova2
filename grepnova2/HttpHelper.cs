@@ -58,26 +58,29 @@ namespace grepnova2
                     // Windows FTP Server Response Format
                     // DateCreated    IsDirectory    Name
                     string data = line;
+                    //Console.WriteLine("GetDirectoryInformation: " + data);
+                    string[] dd = data.Split(new string[] { " " },StringSplitOptions.RemoveEmptyEntries);
 
-                    // Parse date
-                    string date = data.Substring(0, 17);
-                    DateTime dateTime = DateTime.Parse(date, System.Globalization.CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
-                    data = data.Remove(0, 24);
+                    //// Parse date
+                    //string date = data.Substring(0, 17);
+                    //DateTime dateTime = DateTime.Parse(date, System.Globalization.CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
+                    //data = data.Remove(0, 24);
 
-                    // Parse <DIR>
-                    string dir = data.Substring(0, 5);
-                    bool isDirectory = dir.Equals("<dir>", StringComparison.InvariantCultureIgnoreCase);
-                    data = data.Remove(0, 5);
-                    data = data.Remove(0, 10);
+                    //// Parse <DIR>
+                    //string dir = data.Substring(0, 5);
+                    bool isDirectory = dd[1].Equals("2") ? true : false;
+                    //bool isDirectory = dir.Equals("<dir>", StringComparison.InvariantCultureIgnoreCase);
+                    //data = data.Remove(0, 5);
+                    //data = data.Remove(0, 10);
 
                     // Parse name
-                    string name = data;
+                    string name = dd[8];// data;
 
                     // Create directory info
                     DirectoryItem item = new DirectoryItem
                     {
                         BaseUri = new Uri(address),
-                        DateCreated = dateTime,
+                        DateCreated = DateTime.Now,//dateTime,
                         IsDirectory = isDirectory,
                         Name = name
                     };
@@ -108,7 +111,7 @@ namespace grepnova2
             // Get the object used to communicate with the server.
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(address);//"ftp://www.contoso.com/test.htm");
             request.Method = WebRequestMethods.Ftp.DownloadFile;
-            request.UsePassive = false;
+            request.UsePassive = true;// false;
             request.UseBinary = true;
 
             // Use FTP site credentials.
@@ -134,6 +137,7 @@ namespace grepnova2
 
             reader.Close();
             response.Close();
+            Console.WriteLine("File " + filename + " downloaded");
             return 1;
         }
 
